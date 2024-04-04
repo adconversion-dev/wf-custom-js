@@ -8,4 +8,3 @@ if (storedUrl) {
 } else {
   console.log("No stored URL found for redirection.");
 }
-//test
