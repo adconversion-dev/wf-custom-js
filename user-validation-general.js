@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update user's details only if authToken exists
     if (authTokenExists) {
       const userNameElement = document.querySelector('[wized="navUserName"]');
-      const userImageElement = document.querySelector('[wized="navUserImage"]');
+      const userImageElement = document.querySelector('[wized="navUserImage"]'):
 
       if (userNameElement && fullName) {
         userNameElement.textContent = JSON.parse(fullName);
