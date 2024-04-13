@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
+// Immediately executed function to check authToken and manage redirection
+(function() {
     // Function to check for authToken cookie
     function checkAuthToken() {
         return document.cookie.split(';').some((item) => item.trim().startsWith('authToken='));
@@ -21,4 +22,4 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         // If onboarded is false or not set, no further action is needed.
     }
-});
+})();
