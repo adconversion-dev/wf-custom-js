@@ -27,6 +27,13 @@
     }
   }
 
+  // Check for the presence of a hash in the URL
+  if (!window.location.hash) {
+    // Redirect to the main courses page if no hash is present
+    window.location.href = `${baseUrl}/courses`;
+    return; // Exit the function to prevent further execution
+  }
+
   // Update user details and manage element visibility if user is authenticated and onboarded
   document.addEventListener("DOMContentLoaded", function () {
     const fullName = localStorage.getItem("full_name");
@@ -54,3 +61,4 @@
     });
   });
 })();
+
