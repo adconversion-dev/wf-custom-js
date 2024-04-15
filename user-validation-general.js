@@ -13,14 +13,17 @@
 
         // Wait for DOM to be ready to manipulate elements
         document.addEventListener("DOMContentLoaded", function () {
-            const userNameElement = document.querySelector('[wized="navUserName"]');
+            const userNameElements = document.querySelectorAll('[wized="navUserName"]');
             const userImageElement = document.querySelector('[wized="navUserImage"]');
 
             if (authTokenExists) {
-                if (userNameElement && fullName) {
-                    userNameElement.textContent = JSON.parse(fullName);
-                    userNameElement.removeAttribute("custom-cloak"); // Reveal the element
-                }
+                // Update all userNameElements
+                userNameElements.forEach(userNameElement => {
+                    if (fullName) {
+                        userNameElement.textContent = JSON.parse(fullName);
+                        userNameElement.removeAttribute("custom-cloak"); // Reveal the element
+                    }
+                });
 
                 if (userImageElement) {
                     if (profileImageURL && profileImageURL !== "null") {
@@ -53,3 +56,4 @@
         });
     });
 })();
+
