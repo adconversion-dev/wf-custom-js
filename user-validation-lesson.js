@@ -25,14 +25,17 @@
   }
 
   function updateUIElements() {
-    const userNameElement = document.querySelector('[wized="navUserName"]');
+    const userNameElements = document.querySelectorAll('[wized="navUserName"]');
     const userImageElement = document.querySelector('[wized="navUserImage"]');
     const authenticatedElements = document.querySelectorAll('[custom-visibility="authenticated"]');
 
-    if (userNameElement && localStorage.getItem("full_name")) {
-      userNameElement.textContent = JSON.parse(localStorage.getItem("full_name"));
-      userNameElement.removeAttribute("custom-cloak");
-    }
+    // Update all userNameElements
+    userNameElements.forEach(userNameElement => {
+      if (localStorage.getItem("full_name")) {
+        userNameElement.textContent = JSON.parse(localStorage.getItem("full_name"));
+        userNameElement.removeAttribute("custom-cloak");
+      }
+    });
 
     if (userImageElement && localStorage.getItem("profile_image") !== "null") {
       userImageElement.src = JSON.parse(localStorage.getItem("profile_image"));
@@ -51,4 +54,3 @@
     updateUIElements();  // DOM is already ready
   }
 })();
-
