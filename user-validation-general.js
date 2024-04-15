@@ -13,7 +13,7 @@
 
         // Wait for DOM to be ready to manipulate elements
         document.addEventListener("DOMContentLoaded", function () {
-            const userNameElement = document.querySelector('[wized="navUserName"]');
+            const userNameElement = document.querySelectorAll('[wized="navUserName"]');
             const userImageElement = document.querySelector('[wized="navUserImage"]');
 
             if (authTokenExists) {
