@@ -1,6 +1,5 @@
-// Immediately executed function to check authToken and manage redirections and visibility
+// Immediately executed function to manage user state and redirection
 (function() {
-  // Function to check if the authToken cookie exists
   function checkAuthToken() {
     return document.cookie.split(";").some(item => item.trim().startsWith("authToken="));
   }
@@ -8,59 +7,48 @@
   const authTokenExists = checkAuthToken();
   const baseUrl = window.location.origin;
 
-  console.log("Auth Token Exists:", authTokenExists); // Debug log
-
-  // Redirect user based on the absence of authToken or the onboarding status
   if (!authTokenExists) {
-    // Clear specific localStorage items
-    localStorage.removeItem("authenticated");
-    localStorage.removeItem("full_name");
-    localStorage.removeItem("onboarded");
-
-    console.log("Redirecting to login..."); // Debug log
+    localStorage.clear();  // Consider clearing all at once if appropriate
     window.location.href = `${baseUrl}/auth/log-in`;
-    return; // Exit the function to prevent further execution
-  } else {
-    const isOnboarded = localStorage.getItem("onboarded") === "true";
-    console.log("Is Onboarded:", isOnboarded); // Debug log
-
-    if (!isOnboarded) {
-      console.log("Redirecting to onboarding..."); // Debug log
-      window.location.href = `${baseUrl}/onboarding`;
-      return; // Exit the function to prevent further execution
-    }
+    return;
   }
 
-  // Check for the presence of a hash in the URL
-  console.log("Current Hash:", window.location.hash); // Debug log
+  const isOnboarded = localStorage.getItem("onboarded") === "true";
+  if (!isOnboarded) {
+    window.location.href = `${baseUrl}/onboarding`;
+    return;
+  }
+
   if (!window.location.hash) {
-    console.log("Redirecting to courses due to missing hash..."); // Debug log
     window.location.href = `${baseUrl}/courses`;
-    return; // Exit the function to prevent further execution
+    return;
   }
 
-  // Assume the DOM is ready for these operations, as this script should be placed in <head> and run instantly.
-  const fullName = localStorage.getItem("full_name");
-  const profileImageURL = localStorage.getItem("profile_image");
+  function updateUIElements() {
+    const userNameElement = document.querySelector('[wized="navUserName"]');
+    const userImageElement = document.querySelector('[wized="navUserImage"]');
+    const authenticatedElements = document.querySelectorAll('[custom-visibility="authenticated"]');
 
-  const userNameElement = document.querySelector('[wized="navUserName"]');
-  const userImageElement = document.querySelector('[wized="navUserImage"]');
-  const authenticatedElements = document.querySelectorAll('[custom-visibility="authenticated"]');
+    if (userNameElement && localStorage.getItem("full_name")) {
+      userNameElement.textContent = JSON.parse(localStorage.getItem("full_name"));
+      userNameElement.removeAttribute("custom-cloak");
+    }
 
-  if (userNameElement && fullName) {
-    userNameElement.textContent = JSON.parse(fullName);
-    userNameElement.removeAttribute("custom-cloak");
-  }
-
-  if (userImageElement) {
-    if (profileImageURL && profileImageURL !== "null") {
-      userImageElement.src = JSON.parse(profileImageURL);
+    if (userImageElement && localStorage.getItem("profile_image") !== "null") {
+      userImageElement.src = JSON.parse(localStorage.getItem("profile_image"));
       userImageElement.removeAttribute("custom-cloak");
     }
+
+    authenticatedElements.forEach(element => {
+      element.removeAttribute("custom-cloak");
+    });
   }
 
-  // Remove 'custom-cloak' for authenticated elements
-  authenticatedElements.forEach(element => {
-    element.removeAttribute("custom-cloak");
-  });
+  // Try to update UI immediately, if elements aren't available, retry after DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateUIElements);
+  } else {
+    updateUIElements();  // DOM is already ready
+  }
 })();
+
