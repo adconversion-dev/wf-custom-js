@@ -8,28 +8,37 @@
     const authTokenExists = checkAuthToken();
     const baseUrl = window.location.origin; // Dynamically get the base URL
 
-    if (!authTokenExists) {
-        // Clear specific local storage items
+    // Function to clear specific local storage items
+    function clearLocalStorage() {
         localStorage.removeItem("full_name");
         localStorage.removeItem("onboarded");
         localStorage.removeItem("profile_image");
+    }
 
+    if (!authTokenExists) {
+        clearLocalStorage();
         // Redirect to login page using the base URL from window.location.origin
         window.location.href = `${baseUrl}/auth/log-in`;
         return; // Prevent further execution
     }
 
+    // Check if 'onboarded' key is 'false' in local storage
+    const onboardedStatus = localStorage.getItem("onboarded");
+    if (onboardedStatus === "false") {
+        // Redirect to the onboarding page
+        window.location.href = `${baseUrl}/onboarding`;
+        return; // Prevent further execution after redirection
+    }
+
     // If authToken exists, proceed to update user details
     function updateUserDetails() {
-        // Attempt to retrieve and parse the full name, use direct value if not JSON
         let fullName;
         try {
             fullName = JSON.parse(localStorage.getItem("full_name"));
         } catch (e) {
             fullName = localStorage.getItem("full_name"); // Use as plain string if not JSON
         }
-        
-        // Attempt to retrieve and parse the profile image URL, use direct value if not JSON
+
         let profileImageURL;
         try {
             profileImageURL = JSON.parse(localStorage.getItem("profile_image"));
@@ -38,11 +47,10 @@
         }
 
         // Wait for DOM to be ready to manipulate elements
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const userNameElements = document.querySelectorAll('[wized="navUserName"]');
             const userImageElement = document.querySelector('[wized="navUserImage"]');
 
-            // Update all userNameElements with full name
             userNameElements.forEach(userNameElement => {
                 if (fullName) {
                     userNameElement.textContent = fullName;
@@ -50,12 +58,13 @@
                 }
             });
 
-            // Update user image with profile image URL
-            if (userImageElement && profileImageURL && profileImageURL !== "null") {
-                userImageElement.src = profileImageURL;
-                userImageElement.removeAttribute("custom-cloak"); // Reveal the element
-            } else if (userImageElement) {
-                userImageElement.remove();
+            if (userImageElement) {
+                if (profileImageURL && profileImageURL !== "null") {
+                    userImageElement.src = profileImageURL;
+                    userImageElement.removeAttribute("custom-cloak"); // Reveal the element
+                } else {
+                    userImageElement.remove();
+                }
             }
         });
     }
@@ -63,7 +72,7 @@
     updateUserDetails();
 
     // Early visibility management before DOMContentLoaded
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll('[custom-visibility="authenticated"]').forEach(element => {
             element.removeAttribute("custom-cloak");
         });
@@ -73,3 +82,4 @@
         });
     });
 })();
+
