@@ -20,14 +20,14 @@
                 // Update all userNameElements
                 userNameElements.forEach(userNameElement => {
                     if (fullName) {
-                        userNameElement.textContent = JSON.parse(fullName);
+                        userNameElement.textContent = fullName; // Assuming fullName is a string
                         userNameElement.removeAttribute("custom-cloak"); // Reveal the element
                     }
                 });
 
                 if (userImageElement) {
                     if (profileImageURL && profileImageURL !== "null") {
-                        userImageElement.src = JSON.parse(profileImageURL);
+                        userImageElement.src = profileImageURL; // Directly assign the URL
                         userImageElement.removeAttribute("custom-cloak"); // Reveal the element
                     } else {
                         userImageElement.remove();
