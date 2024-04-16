@@ -7,6 +7,17 @@
 
     const authTokenExists = checkAuthToken();
 
+    // Function to clear specific local storage items
+    function clearLocalStorageItems() {
+        localStorage.removeItem("full_name");
+        localStorage.removeItem("onboarded");
+        localStorage.removeItem("profile_image");
+    }
+
+    if (!authTokenExists) {
+        clearLocalStorageItems(); // Clear local storage when authToken is not found
+    }
+
     function updateUserDetails(authTokenExists) {
         // Attempt to retrieve and parse the full name, use direct value if not JSON
         let fullName;
