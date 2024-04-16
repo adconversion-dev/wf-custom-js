@@ -6,7 +6,7 @@
     }
 
     const authTokenExists = checkAuthToken();
-    const baseUrl = 'www.example.com'; // Set base URL for redirection
+    const baseUrl = window.location.origin; // Dynamically get the base URL
 
     if (!authTokenExists) {
         // Clear specific local storage items
@@ -14,7 +14,7 @@
         localStorage.removeItem("onboarded");
         localStorage.removeItem("profile_image");
 
-        // Redirect to login page
+        // Redirect to login page using the base URL from window.location.origin
         window.location.href = `${baseUrl}/auth/log-in`;
         return; // Prevent further execution
     }
