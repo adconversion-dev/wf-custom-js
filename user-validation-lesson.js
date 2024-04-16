@@ -36,21 +36,17 @@
     const userImageElement = document.querySelector('[wized="navUserImage"]');
     const authenticatedElements = document.querySelectorAll('[custom-visibility="authenticated"]');
 
-    // Try parsing full name and profile image URL, revert to direct use if not JSON
-    let fullName = localStorage.getItem("full_name");
-    let profileImageURL = localStorage.getItem("profile_image");
-    
-    try {
-        fullName = JSON.parse(fullName) || fullName; // Use parsed value or original if parsing fails
-    } catch (e) {
-        // Use original if parsing throws an error
+    // Function to safely parse JSON or return the original value
+    function safeJSONParse(value) {
+      try {
+        return JSON.parse(value) || value;
+      } catch (e) {
+        return value;
+      }
     }
-    
-    try {
-        profileImageURL = JSON.parse(profileImageURL) || profileImageURL; // Use parsed value or original if parsing fails
-    } catch (e) {
-        // Use original if parsing throws an error
-    }
+
+    let fullName = safeJSONParse(localStorage.getItem("full_name"));
+    let profileImageURL = safeJSONParse(localStorage.getItem("profile_image"));
 
     // Update all userNameElements with full name
     userNameElements.forEach(userNameElement => {
