@@ -1,4 +1,4 @@
-// Immediately executed function to check authToken and manage user details and visibility
+/ Immediately executed function to check authToken and manage user details and visibility
 (function() {
     // Function to check for authToken cookie
     function checkAuthToken() {
@@ -20,14 +20,14 @@
                 // Update all userNameElements
                 userNameElements.forEach(userNameElement => {
                     if (fullName) {
-                        userNameElement.textContent = fullName; // Assuming fullName is a string
+                        userNameElement.textContent = JSON.parse(fullName);
                         userNameElement.removeAttribute("custom-cloak"); // Reveal the element
                     }
                 });
 
                 if (userImageElement) {
                     if (profileImageURL && profileImageURL !== "null") {
-                        userImageElement.src = profileImageURL; // Directly assign the URL
+                        userImageElement.src = JSON.parse(profileImageURL);
                         userImageElement.removeAttribute("custom-cloak"); // Reveal the element
                     } else {
                         userImageElement.remove();
@@ -56,4 +56,3 @@
         });
     });
 })();
-
