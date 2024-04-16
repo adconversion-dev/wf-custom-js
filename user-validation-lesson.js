@@ -7,8 +7,15 @@
   const authTokenExists = checkAuthToken();
   const baseUrl = window.location.origin;
 
+  // Function to clear specific local storage items
+  function clearSpecificLocalStorageItems() {
+    localStorage.removeItem("full_name");
+    localStorage.removeItem("onboarded");
+    localStorage.removeItem("profile_image");
+  }
+
   if (!authTokenExists) {
-    localStorage.clear(); // Consider clearing all at once if appropriate
+    clearSpecificLocalStorageItems(); // Clear specific local storage items
     window.location.href = `${baseUrl}/auth/log-in`;
     return;
   }
