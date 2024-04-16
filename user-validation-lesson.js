@@ -29,29 +29,28 @@
     const userImageElement = document.querySelector('[wized="navUserImage"]');
     const authenticatedElements = document.querySelectorAll('[custom-visibility="authenticated"]');
 
-    let fullName;
-    let profileImageURL;
-
-    // Attempt to retrieve and parse the full name, use direct value if not JSON
+    // Try parsing full name and profile image URL, revert to direct use if not JSON
+    let fullName = localStorage.getItem("full_name");
+    let profileImageURL = localStorage.getItem("profile_image");
+    
     try {
-        fullName = JSON.parse(localStorage.getItem("full_name"));
+        fullName = JSON.parse(fullName) || fullName; // Use parsed value or original if parsing fails
     } catch (e) {
-        fullName = localStorage.getItem("full_name"); // Use as plain string if not JSON
+        // Use original if parsing throws an error
     }
     
-    // Attempt to retrieve and parse the profile image URL, use direct value if not JSON
     try {
-        profileImageURL = JSON.parse(localStorage.getItem("profile_image"));
+        profileImageURL = JSON.parse(profileImageURL) || profileImageURL; // Use parsed value or original if parsing fails
     } catch (e) {
-        profileImageURL = localStorage.getItem("profile_image"); // Use as plain string if not JSON
+        // Use original if parsing throws an error
     }
 
     // Update all userNameElements with full name
     userNameElements.forEach(userNameElement => {
-        if (fullName) {
-            userNameElement.textContent = fullName;
-            userNameElement.removeAttribute("custom-cloak");
-        }
+      if (fullName) {
+        userNameElement.textContent = fullName;
+        userNameElement.removeAttribute("custom-cloak");
+      }
     });
 
     // Update user image with profile image URL
