@@ -10,9 +10,17 @@
         window.location.href = window.location.origin + path;
     }
 
+    // Function to clear specific localStorage keys
+    function clearLocalStorageKeys() {
+        localStorage.removeItem("profile_image");
+        localStorage.removeItem("full_name");
+        localStorage.removeItem("onboarded");
+    }
+
     // Execute logic based on authToken presence
     const authTokenExists = checkAuthToken();
     if (!authTokenExists) {
+        clearLocalStorageKeys();
         redirectTo("/auth/log-in");
     } else {
         // Check the onboarded status from localStorage
