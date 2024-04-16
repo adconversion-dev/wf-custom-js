@@ -18,7 +18,7 @@
         // Check the onboarded status from localStorage
         const onboarded = localStorage.getItem("onboarded");
         if (onboarded === "true") {
-            redirectTo("/course/b2b-advertising-foundations");
+            redirectTo("/courses");
         }
         // If onboarded is false or not set, no further action is needed.
     }
