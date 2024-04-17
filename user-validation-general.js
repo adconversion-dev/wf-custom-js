@@ -66,16 +66,14 @@
 
     // Early visibility management before DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function () {
-        const onboarded = localStorage.getItem('onboarded') === 'true';
-
         document.querySelectorAll('[custom-visibility="authenticated"]').forEach(element => {
-            if (authTokenExists && onboarded) {
+            if (authTokenExists) {
                 element.removeAttribute("custom-cloak");
             }
         });
 
         document.querySelectorAll('[custom-visibility="unauthenticated"]').forEach(element => {
-            if (!authTokenExists || !onboarded) {
+            if (!authTokenExists) {
                 element.removeAttribute("custom-cloak");
             } else {
                 element.remove();
