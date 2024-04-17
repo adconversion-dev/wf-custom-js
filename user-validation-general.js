@@ -66,6 +66,7 @@
 
     // Early visibility management before DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function () {
+        const isOnboarded = localStorage.getItem('onboarded') === 'true';
         document.querySelectorAll('[custom-visibility="authenticated"]').forEach(element => {
             if (authTokenExists) {
                 element.removeAttribute("custom-cloak");
@@ -78,6 +79,14 @@
             } else {
                 element.remove();
             }
+        });
+
+        // Handling custom-visibility for "account-settings"
+        document.querySelectorAll('[custom-visibility="account-settings"]').forEach(element => {
+            if (authTokenExists && isOnboarded) {
+                element.removeAttribute("custom-cloak");
+            }
+            // Leave as is if authToken exists but onboarded is false
         });
     });
 })();
