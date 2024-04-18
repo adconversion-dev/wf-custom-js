@@ -35,6 +35,7 @@
     const userNameElements = document.querySelectorAll('[wized="navUserName"]');
     const userImageElement = document.querySelector('[wized="navUserImage"]');
     const authenticatedElements = document.querySelectorAll('[custom-visibility="authenticated"]');
+    const accountSettingsElements = document.querySelectorAll('[custom-visibility="account-settings"]');
 
     // Function to safely parse JSON or return the original value
     function safeJSONParse(value) {
@@ -62,8 +63,16 @@
         userImageElement.removeAttribute("custom-cloak");
     }
 
+    // Update authenticated and account settings visibility
     authenticatedElements.forEach(element => {
         element.removeAttribute("custom-cloak");
+    });
+
+    accountSettingsElements.forEach(element => {
+      if (authTokenExists && isOnboarded) {
+        element.removeAttribute("custom-cloak");
+      }
+      // Leave as is if authToken exists but onboarded is false
     });
   }
 
