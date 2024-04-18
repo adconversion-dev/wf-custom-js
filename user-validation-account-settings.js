@@ -23,8 +23,8 @@
     }
 
     // Check if 'onboarded' key is 'false' in local storage
-    const onboardedStatus = localStorage.getItem("onboarded");
-    if (onboardedStatus === "false") {
+    const onboardedStatus = localStorage.getItem("onboarded") === "true";
+    if (!onboardedStatus) {
         // Redirect to the onboarding page
         window.location.href = `${baseUrl}/onboarding`;
         return; // Prevent further execution after redirection
@@ -73,6 +73,8 @@
 
     // Early visibility management before DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function() {
+        const accountSettingsElements = document.querySelectorAll('[custom-visibility="account-settings"]');
+        
         document.querySelectorAll('[custom-visibility="authenticated"]').forEach(element => {
             element.removeAttribute("custom-cloak");
         });
@@ -80,6 +82,12 @@
         document.querySelectorAll('[custom-visibility="unauthenticated"]').forEach(element => {
             element.remove();
         });
+
+        accountSettingsElements.forEach(element => {
+            if (authTokenExists && onboardedStatus) {
+                element.removeAttribute("custom-cloak");
+            }
+            // Leave as is if authToken exists but onboarded is false
+        });
     });
 })();
-
