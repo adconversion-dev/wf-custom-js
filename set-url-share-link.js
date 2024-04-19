@@ -1,13 +1,23 @@
-// Listen for the DOMContentLoaded event to ensure the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Select all elements with the attribute fs-socialshare-element="url"
-    const urlShareElements = document.querySelectorAll('[fs-socialshare-element="url"]');
+document.addEventListener('DOMContentLoaded', () => {
+    const pageUrl = encodeURIComponent(window.location.href);
+    const pageTitle = encodeURIComponent(document.title);
 
-    // Get the current URL from the address bar
-    const currentUrl = window.location.href;
+    // Set Twitter share link
+    const twitterLinks = document.querySelectorAll('[wized="socialShare_x"]');
+    twitterLinks.forEach(link => {
+        link.href = `https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageUrl}`;
+    });
 
-    // Update all targeted elements with the current URL
-    urlShareElements.forEach(element => {
-        element.textContent = currentUrl; // Set the text content to the current URL
+    // Set Facebook share link
+    const facebookLinks = document.querySelectorAll('[wized="socialShare_fb"]');
+    facebookLinks.forEach(link => {
+        link.href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}&quote=${pageTitle}`;
+    });
+
+    // Set LinkedIn share link
+    const linkedInLinks = document.querySelectorAll('[wized="socialShare_linkedin"]');
+    linkedInLinks.forEach(link => {
+        link.href = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
     });
 });
+
