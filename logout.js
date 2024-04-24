@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     logoutElements.forEach(function(logoutElement) {
         logoutElement.addEventListener('click', function() {
             // Set authToken cookie to null
-            document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+            document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
 
             // Clear specific keys from local storage
             localStorage.removeItem('full_name');
