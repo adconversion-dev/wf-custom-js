@@ -22,12 +22,15 @@
     if (!authTokenExists) {
         clearLocalStorageKeys();
         redirectTo("/auth/log-in");
+        return; // Exit the function after redirection
     } else {
         // Check the onboarded status from localStorage
         const onboarded = localStorage.getItem("onboarded");
         if (onboarded === "true") {
             redirectTo("/courses");
+            return; // Exit the function after redirection
         }
         // If onboarded is false or not set, no further action is needed.
     }
 })();
+
