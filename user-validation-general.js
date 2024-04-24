@@ -1,6 +1,6 @@
-// Immediately executed function to check authToken and manage user details and visibility
+// Immediately executed function to check auth_token and manage user details and visibility
 (function() {
-    // Function to check for authToken cookie
+    // Function to check for auth_token cookie
     function checkAuthToken() {
         return document.cookie.split(";").some(item => item.trim().startsWith("auth_token="));
     }
@@ -15,7 +15,7 @@
     }
 
     if (!authTokenExists) {
-        clearLocalStorageItems(); // Clear local storage when authToken is not found
+        clearLocalStorageItems(); // Clear local storage when auth_token is not found
     }
 
     function updateUserDetails(authTokenExists) {
