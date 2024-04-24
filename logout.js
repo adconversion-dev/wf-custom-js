@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Target the element with wized="logout" attribute
-    var logoutElement = document.querySelector('[wized="logout"]');
+    // Target all elements with wized="logout" attribute
+    var logoutElements = document.querySelectorAll('[wized="logout"]');
 
-    if (logoutElement) {
+    // Iterate over each logout element and add a click event listener
+    logoutElements.forEach(function(logoutElement) {
         logoutElement.addEventListener('click', function() {
             // Set authToken cookie to null
             document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
@@ -15,5 +16,5 @@ document.addEventListener('DOMContentLoaded', function() {
             // Redirect to the login page
             window.location.href = '/auth/log-in';
         });
-    }
+    });
 });
