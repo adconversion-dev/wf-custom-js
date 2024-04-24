@@ -32,8 +32,8 @@
   }
 
   function updateUIElements() {
-    const userNameElements = document.querySelectorAll('[wized="navUserName"]');
-    const userImageElement = document.querySelector('[wized="navUserImage"]');
+    const userNameElements = document.querySelectorAll('[wized="nav_userName"]');
+    const userImageElement = document.querySelector('[wized="nav_userImage"]');
     const authenticatedElements = document.querySelectorAll('[custom-visibility="authenticated"]');
     const accountSettingsElements = document.querySelectorAll('[custom-visibility="account-settings"]');
 
