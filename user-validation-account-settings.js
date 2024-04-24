@@ -48,8 +48,8 @@
 
         // Wait for DOM to be ready to manipulate elements
         document.addEventListener("DOMContentLoaded", function() {
-            const userNameElements = document.querySelectorAll('[wized="navUserName"]');
-            const userImageElement = document.querySelector('[wized="navUserImage"]');
+            const userNameElements = document.querySelectorAll('[wized="nav_userName"]');
+            const userImageElement = document.querySelector('[wized="nav_userImage"]');
 
             userNameElements.forEach(userNameElement => {
                 if (fullName) {
