@@ -40,9 +40,9 @@
     // Function to safely parse JSON or return the original value
     function safeJSONParse(value) {
       try {
-        return JSON.parse(value) || value;
+        return JSON.parse(value);
       } catch (e) {
-        return value;
+        return value; // Return the plain string if JSON parse fails
       }
     }
 
@@ -59,13 +59,13 @@
 
     // Update user image with profile image URL
     if (userImageElement && profileImageURL !== "null") {
-        userImageElement.src = profileImageURL;
-        userImageElement.removeAttribute("custom-cloak");
+      userImageElement.src = profileImageURL;
+      userImageElement.removeAttribute("custom-cloak");
     }
 
     // Update authenticated and account settings visibility
     authenticatedElements.forEach(element => {
-        element.removeAttribute("custom-cloak");
+      element.removeAttribute("custom-cloak");
     });
 
     accountSettingsElements.forEach(element => {
