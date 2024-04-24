@@ -2,7 +2,7 @@
 (function() {
     // Function to check for authToken cookie
     function checkAuthToken() {
-        return document.cookie.split(";").some(item => item.trim().startsWith("authToken="));
+        return document.cookie.split(";").some(item => item.trim().startsWith("auth_token="));
     }
 
     const authTokenExists = checkAuthToken();
