@@ -15,6 +15,7 @@
         localStorage.removeItem("profile_image");
     }
 
+    // Check if the 'auth_token' cookie does not exist
     if (!authTokenExists) {
         clearLocalStorage();
         // Redirect to login page using the base URL from window.location.origin
@@ -22,7 +23,7 @@
         return; // Prevent further execution
     }
 
-    // Check if 'onboarded' key is 'false' in local storage
+    // If authToken exists, no need to clear local storage; check 'onboarded' status
     const onboardedStatus = localStorage.getItem("onboarded") === "true";
     if (!onboardedStatus) {
         // Redirect to the onboarding page
