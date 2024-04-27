@@ -20,5 +20,5 @@
 
   // Redirect if 'auth_token' exists
   if (authToken) {
-    window.location.href = "/auth/log-in";
+    window.location.href = "/courses";
   }
