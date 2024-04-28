@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('full_name');
             localStorage.removeItem('onboarded');
             localStorage.removeItem('profile_image');
-
+            localStorage.removeItem('course_details');
             // Redirect to the login page
             window.location.href = '/auth/log-in';
         });
