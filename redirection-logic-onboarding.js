@@ -17,7 +17,7 @@
   function getBaseUrl() {
     if (window.location.hostname.includes('server.wized.com')) {
       // Inside Wized, adjust to use the proxy format
-      return "/v2/page/proxy?url=" + encodeURIComponent("https://your-website.com");
+      return "/v2/page/proxy?url=" + encodeURIComponent("https://adconversion-academy-wized.webflow.io");
     } else {
       // Outside Wized, use the normal site base URL
       return window.location.origin;
