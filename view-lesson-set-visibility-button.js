@@ -1,62 +1,77 @@
 const courseDetails = JSON.parse(localStorage.getItem('course_details'));
-const urlSlug = window.location.pathname.split('/').pop(); // Assuming the slug is the last segment of the URL
 
-if (!courseDetails) {
-    // No course details found, show the elements for users not enrolled in any course
-    document.querySelectorAll('[wized="course_enrolled_false"]').forEach(element => {
-        element.classList.remove('hidden');
-    });
-} else {
-    let matchFound = false;
+function waitForWizedPath(callback) {
+    if (typeof Wized !== 'undefined' && Wized.data && Wized.data.n && Wized.data.n.path) {
+        console.log("Wized path:", Wized.data.n.path);
+        callback(Wized.data.n.path);
+    } else {
+        console.log("Wized not defined yet, retrying...");
+        setTimeout(() => waitForWizedPath(callback), 100);
+    }
+}
 
-    // Check each course in the course details for a matching slug
-    for (const course of courseDetails) {
-        if (course.webflow_cms_slug === urlSlug) {
-            matchFound = true;
+function checkCourseEnrollment(currentPath) {
+    const urlSlug = currentPath.split('/').pop();
+    console.log("URL Slug derived:", urlSlug);
 
-            // Match found, handle visibility and updates based on progress
-            const progress = parseInt(course.progress.replace('%', ''), 10); // Remove '%' and convert to integer
-            const triggers2 = document.querySelectorAll('[wized="course_startLesson_trigger_2"]');
-            const triggers3 = document.querySelectorAll('[wized="course_startLesson_trigger_3"]');
+    if (!courseDetails || courseDetails.length === 0) {
+        console.log("No course details found or empty array.");
+        document.querySelectorAll('[wized="course_enrolled_false"]').forEach(element => element.classList.remove('hidden'));
+        document.querySelectorAll('[wized="course_enrolled_true"]').forEach(element => element.classList.add('hidden'));
+    } else {
+        let matchFound = false;
 
-            if (progress < 100) {
-                triggers2.forEach(trigger2 => {
-                    trigger2.classList.remove('hidden');
-                    trigger2.href = `${window.location.origin}/lesson#${course.slug}+${course.last_played_lesson_id}`;
-                    const progressElement = trigger2.querySelector('[wized="courses_progress"]');
-                    if (progressElement) {
-                        progressElement.textContent = `Current Progress - ${course.progress}`;
-                    }
-                });
-            } else {
-                triggers3.forEach(trigger3 => {
-                    trigger3.classList.remove('hidden');
-                    trigger3.href = `${window.location.origin}/lesson#${course.slug}${course.last_played_lesson_id}`;
-                    const progressElement = trigger3.querySelector('[wized="courses_progress"]');
-                    if (progressElement) {
-                        progressElement.textContent = `Current Progress - ${course.progress} (Completed)`;
-                    }
-                });
+        for (const course of courseDetails) {
+            console.log("Checking course:", course.webflow_cms_slug, "against slug:", urlSlug);
+            if (course.webflow_cms_slug === urlSlug) {
+                console.log("Match found:", course);
+                matchFound = true;
+                updateCourseVisibility(course, window.location.origin.includes('server.wized.com'));
+                break;
             }
+        }
 
-            // Display last viewed info
-            document.querySelectorAll('[wized="course_startLesson_lastPlayed"]').forEach(elem => {
-                elem.textContent = `Last Viewed - ${course.module_and_lesson_number}`;
-            });
-
-            // Show all course enrolled true elements
-            document.querySelectorAll('[wized="course_enrolled_true"]').forEach(element => {
-                element.classList.remove('hidden');
-            });
-
-            break; // Stop checking after a match is found
+        if (!matchFound) {
+            console.log("No matching course found.");
+            document.querySelectorAll('[wized="course_enrolled_false"]').forEach(element => element.classList.remove('hidden'));
+            document.querySelectorAll('[wized="course_enrolled_true"]').forEach(element => element.classList.add('hidden'));
         }
     }
+}
 
-    // If no match found, show the elements for users not enrolled in the course
-    if (!matchFound) {
-        document.querySelectorAll('[wized="course_enrolled_false"]').forEach(element => {
-            element.classList.remove('hidden');
-        });
-    }
+if (window.location.origin.includes('server.wized.com')) {
+    waitForWizedPath(checkCourseEnrollment);
+} else {
+    checkCourseEnrollment(window.location.pathname);
+}
+
+function updateCourseVisibility(course, isWized) {
+    document.querySelectorAll('[wized="course_enrolled_true"]').forEach(element => {
+        console.log("Showing enrolled elements");
+        element.classList.remove('hidden');
+    });
+    document.querySelectorAll('[wized="course_enrolled_false"]').forEach(element => {
+        console.log("Hiding not enrolled elements");
+        element.classList.add('hidden');
+    });
+
+    const progress = parseInt(course.progress.replace('%', ''), 10);
+    const triggers = document.querySelectorAll(progress < 100 ? '[wized="course_startLesson_trigger_2"]' : '[wized="course_startLesson_trigger_3"]');
+    
+    triggers.forEach(trigger => {
+        trigger.classList.remove('hidden');
+        if (isWized) {
+            trigger.href = `/v2/page/proxy?url=https://adconversion-academy-wized.webflow.io/lesson?lesson_identifier=${course.slug}+${course.last_played_lesson_id}`;
+        } else {
+            trigger.href = `${window.location.origin}/lesson#${course.slug}${progress === 100 ? course.last_played_lesson_id : '+' + course.last_played_lesson_id}`;
+        }
+        const progressElement = trigger.querySelector('[wized="courses_progress"]');
+        if (progressElement) {
+            progressElement.textContent = `Current Progress - ${course.progress}${progress === 100 ? ' (Completed)' : ''}`;
+        }
+    });
+
+    document.querySelectorAll('[wized="course_startLesson_lastPlayed"]').forEach(elem => {
+        elem.textContent = `Last Viewed - ${course.module_and_lesson_number}`;
+    });
 }
