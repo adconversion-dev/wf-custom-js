@@ -63,7 +63,8 @@ function updateCourseVisibility(course, isWized) {
         if (isWized) {
             trigger.href = `/v2/page/proxy?url=https://adconversion-academy-wized.webflow.io/lesson?lesson_identifier=${course.slug}+${course.last_played_lesson_id}`;
         } else {
-            trigger.href = `${window.location.origin}/lesson#${course.slug}${progress === 100 ? course.last_played_lesson_id : '+' + course.last_played_lesson_id}`;
+            // Ensure the '+' sign is included correctly when concatenating
+            trigger.href = `${window.location.origin}/lesson#${course.slug}+${course.last_played_lesson_id}`;
         }
         const progressElement = trigger.querySelector('[wized="courses_progress"]');
         if (progressElement) {
