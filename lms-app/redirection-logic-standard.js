@@ -25,7 +25,8 @@
   const authToken = getCookie('auth_token');
   
   if (!authToken) {
-    // No auth token - redirect to login
+    // No auth token - clear all localStorage and redirect to login
+    localStorage.clear();
     redirectTo('/auth/log-in');
   } else {
     // Auth token exists - check onboarding status
