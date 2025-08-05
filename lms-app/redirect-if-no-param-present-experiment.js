@@ -18,9 +18,9 @@
     // In Wized preview - wait for Wized to be ready
     window.Wized = window.Wized || [];
     window.Wized.push((Wized) => {
-      const experiementId = Wized.data.n.parameter.experiment_id;
+      const experimentId = Wized.data.n.parameter.experiment_id;
       
-      if (!experiementId) {
+      if (!experimentId) {
         // Missing playbook_id parameter - redirect to all playbooks
         redirectTo('/learn/experiments/all-experiments');
       }
@@ -29,9 +29,9 @@
   } else {
     // Normal environment - check URL parameters directly
     const urlParams = new URLSearchParams(window.location.search);
-    const experiementId = urlParams.get('experiments_id');
+    const experimentId = urlParams.get('experiment_id');
     
-    if (!experiementId) {
+    if (!experimentId) {
       // Missing playbook_id parameter - redirect to all playbooks
       redirectTo('/learn/experiments/all-experiments');
     }
