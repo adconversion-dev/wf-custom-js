@@ -34,7 +34,7 @@
     
     if (onboardedStatus === 'true') {
       // User is authenticated and onboarded - redirect to dashboard
-      redirectTo('/dashboard/');
+      redirectTo('/dashboard');
     } else {
     }
   }
