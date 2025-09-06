@@ -36,21 +36,21 @@
     // In Wized preview - wait for Wized to be ready
     window.Wized = window.Wized || [];
     window.Wized.push((Wized) => {
-      const courseId = Wized.data.n.parameter.review_id;
+      const courseId = Wized.data.n.parameter.topic_id;
 
       if (!courseId) {
         // Missing course_id parameter - redirect to all courses
-        redirectTo("/admin-portal/dashboard/reviews/all-reviews");
+        redirectTo("/admin-portal/dashboard/topics/all-topics");
       }
     });
   } else {
     // Normal environment - check URL parameters directly
     const urlParams = new URLSearchParams(window.location.search);
-    const courseId = urlParams.get("review_id");
+    const courseId = urlParams.get("topic_id");
 
     if (!courseId) {
       // Missing course_id parameter - redirect to all courses
-      redirectTo("/admin-portal/dashboard/reviews/all-reviews");
+      redirectTo("/admin-portal/dashboard/topics/all-topics");
     }
   }
 })();
