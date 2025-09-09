@@ -94,15 +94,12 @@
                 player
                   .setCurrentTime(watchedTillSeconds)
                   .then(() => {
-
                     // Start autoplay after setting the time
                     if (shouldAutoplay) {
                       player
                         .play()
-                        .then(() => {
-                        })
-                        .catch((error) => {
-                        });
+                        .then(() => {})
+                        .catch((error) => {});
                     }
                   })
                   .catch((error) => {
@@ -112,10 +109,8 @@
                     if (shouldAutoplay) {
                       player
                         .play()
-                        .then(() => {
-                        })
-                        .catch((error) => {
-                        });
+                        .then(() => {})
+                        .catch((error) => {});
                     }
                   });
               } else {
@@ -126,10 +121,8 @@
                 if (shouldAutoplay) {
                   player
                     .play()
-                    .then(() => {
-                    })
-                    .catch((error) => {
-                    });
+                    .then(() => {})
+                    .catch((error) => {});
                 }
               }
             })
@@ -195,7 +188,7 @@
         headers: {
           Authorization: `Bearer ${authToken}`,
           "Content-Type": "application/json",
-          "X-Data-Source": isDevEnvironment() ? "staging" : "production",
+          "X-Data-Source": isDevEnvironment() ? "staging" : "live",
         },
       });
 
