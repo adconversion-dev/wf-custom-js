@@ -27,7 +27,7 @@
   if (!adminAuthToken) {
     // No admin auth token - clear all localStorage and redirect to admin login
     localStorage.clear();
-    redirectTo("/admin-portal/auth/log-in");
+    redirectTo("/auth/log-in");
     return; // Stop further execution
   }
 
@@ -40,7 +40,7 @@
 
       if (!courseId) {
         // Missing course_id parameter - redirect to all courses
-        redirectTo("/admin-portal/dashboard/authors/all-authors");
+        redirectTo("/dashboard/authors/all-authors");
       }
     });
   } else {
@@ -50,7 +50,7 @@
 
     if (!courseId) {
       // Missing course_id parameter - redirect to all courses
-      redirectTo("/admin-portal/dashboard/authors/all-authors");
+      redirectTo("/dashboard/authors/all-authors");
     }
   }
 })();
