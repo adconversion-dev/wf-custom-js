@@ -27,7 +27,7 @@
   if (!adminAuthToken) {
     // No admin auth token - clear all localStorage and redirect to admin login
     localStorage.clear();
-    redirectTo("/admin-portal/auth/log-in");
+    redirectTo("/auth/log-in");
   }
   // If admin token exists, allow access to current page (no redirect needed)
 })();
